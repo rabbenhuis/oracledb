@@ -1,3 +1,6 @@
+YYYY-MM-DD Release 0.2.0
+- Add a bash_profile to the operating server user
+
 2017-09-18 Release 0.1.0
 - Add `oracledb::install` define
 - Add data_provider hiera
