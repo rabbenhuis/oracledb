@@ -1,0 +1,24 @@
+{
+  "name": "rabbenhuis-oracledb",
+  "version": "0.1.0",
+  "author": "Richard Abbenhuis <richard@abbenhuis.net>",
+  "summary": "Installs and configures the Oracle Database Server",
+  "license": "Apache-2.0",
+  "source": "https://github.com/rabbenhuis/oracledb",
+  "project_page": "https://github.com/rabbenhuis/oracledb",
+  "issues_url": "https://github.com/rabbenhuis/oracledb/issues",
+  "dependencies": [
+    {
+      "name": "puppetlabs-stdlib", "version_requirement": ">= 1.0.0"
+    }
+  ],
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "Debian", "operatingsystemrelease": [ "6", "7" ]
+    },
+    {
+      "operatingsystem": "RedHat", "operatingsystemrelease": [ "5", "6", "7" ]
+    }
+  ],
+  "data_provider": "hiera"
+}
