@@ -86,12 +86,10 @@ oracledb::install  { '11.2.0.4_Linux_x86-64':
 #### oracledb::install
 
 ##### `version`
-The Oracle Database Server version.
-Valid values are 11.2.0.1, 11.2.0.3, 11.2.0.4, 12.1.0.1, 12.1.0.2 or 12.2.0.1.
+The Oracle Database Server version. Valid values are 11.2.0.1, 11.2.0.3, 11.2.0.4, 12.1.0.1, 12.1.0.2 or 12.2.0.1.
 
 ##### `edition`
-The Oracle Database Server edition.
-Valid values are 'SE', 'EE' or 'SEONE'.
+The Oracle Database Server edition. Valid values are 'SE', 'EE' or 'SEONE'. Defauls to 'SE'.
 
 ##### `ee_custom_install`
 Enable or disable install custom components. Valid values are 'true' or 'false'. Defaults to 'false'.
