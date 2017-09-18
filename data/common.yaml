@@ -1,0 +1,9 @@
+---
+oracledb::kernels:
+  - 'Linux'
+
+oracledb::execution_path: '/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin'
+
+oracledb::module_source: 'modules/oracledb/'
+oracledb::package_target: '/var/tmp/install'
+

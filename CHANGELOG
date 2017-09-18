@@ -1,0 +1,8 @@
+2017-09-18 Release 0.1.0
+- Add `oracledb::install` define
+- Add data_provider hiera
+- Add common.yaml
+- Add `oracledb::orainventory_dir` fact
+- Add `oracledb::oracle_homes` fact
+- Add `oracle_home_exists` function
+- Add `dbs_software_directories` type
