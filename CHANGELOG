@@ -1,4 +1,4 @@
-YYYY-MM-DD Release 0.1.0
+2017-09-18 Release 0.1.0
 - Add `oracledb::install` define
 - Add data_provider hiera
 - Add common.yaml
@@ -6,4 +6,3 @@ YYYY-MM-DD Release 0.1.0
 - Add `oracledb::oracle_homes` fact
 - Add `oracle_home_exists` function
 - Add `dbs_software_directories` type
-
