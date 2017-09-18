@@ -126,6 +126,9 @@ Should the installation files and directories be removed afterwards
 ##### `os_user`
 The operating system user for using the Oracle software. Defaults to 'oracle'
 
+##### `bash_profile`
+Should the bash_profile be added to the operating system user, Valid values are 'true' or 'false'. Defaults to 'true'.
+
 ##### `os_group`
 The operating group name for using the Oracle software. Defaults to 'dba'
 
@@ -147,8 +150,14 @@ The KMDBA_GROUP is the OS group which is to be granted OSKMDBA privileges. Defau
 ##### `os_group_rac`
 The OSRACDBA_GROUP is the OS group which is to be granted SYSRAC privileges. Defaults to 'dba'
 
+##### `temp_dir`
+Location for temporary file(s) used by the installer. Defaults to '/tmp'
+
 ##### `cluster_nodes`
 List of cluster node names.
+
+##### `log_output`
+Show all the output of the the exec actions. Valid values are 'true' or 'false'. Defaults to 'false'.
 
 ### Facts
 
