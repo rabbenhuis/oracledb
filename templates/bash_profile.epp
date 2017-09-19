@@ -1,6 +1,6 @@
 <%- | String $oracle_base,
       String $oracle_home,
-      String $temp_dir = '/tmp' -%>
+      String $temp_dir = '/tmp' | -%>
 # .bash_profile
 
 if [ -f ~/.bashrc ] ; then
@@ -8,7 +8,7 @@ if [ -f ~/.bashrc ] ; then
 fi
 
 export ORACLE_TERM=xterm
-export LD_LIBRARY_PATH=<%= $oracle_home %./lib
+export LD_LIBRARY_PATH=<%= $oracle_home %>/lib
 export ORACLE_BASE=<%= $oracle_base %>
 export ORACLE_HOME=<%= $oracle_home %>
 export PATH=/usr/local/bin:/usr/bin:/bin:<%= $oracle_home %>/bin:$PATH
