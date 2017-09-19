@@ -255,9 +255,13 @@ define oracledb::install (
           owner   => $os_user,
           group   => $os_group,
           mode    => '0644',
-          content => regsubst(epp('oracledb/bash_profile.epp', { 'oracle_base' => $oracle_base,
-                                                                 'oracle_home' => $oracle_home,
-                                                                 'temp_dir'    => $temp_dir }), '\r\n', "\n", 'EMG'),
+          content => regsubst(
+            epp(
+              'oracledb/bash_profile.epp', {
+                'oracle_base' => $oracle_base,
+                'oracle_home' => $oracle_home,
+                'temp_dir'    => $temp_dir }),
+            '\r\n', "\n", 'EMG'),
         }
       }
     }
@@ -266,35 +270,41 @@ define oracledb::install (
     if ($package_cleanup) {
       if ($package_extract) {
         exec { "Remove Oracle Database Server extract folder ${title}":
-          command => "rm -rf ${package_target}/${package_name}",
-          cwd     => $oracle_base,
-          user    => 'root',
-          group   => 'root',
-          path    => $execution_path,
-          require => [Exec["Install Oracle Database Server ${title}"],
-                      Exec["Run orainstRoot.sh script ${title}"], ]
+          command   => "rm -rf ${package_target}/${package_name}",
+          cwd       => $oracle_base,
+          user      => 'root',
+          group     => 'root',
+          path      => $execution_path,
+          logoutput => $log_output,
+          require   => [
+            Exec["Install Oracle Database Server ${title}"],
+            Exec["Run orainstRoot.sh script ${title}"]],
         }
 
         if ($package_source =~ /^puppet/) {
           exec { "Remove Oracle Database Server Install File ${install_file1}":
-            command => "rm -f ${package_target}/${install_file1}",
-            cwd     => $oracle_base,
-            user    => 'root',
-            group   => 'root',
-            path    => $execution_path,
-            require => [Exec["Install Oracle Database Server ${title}"],
-                        Exec["Run orainstRoot.sh script ${title}"], ]
+            command   => "rm -f ${package_target}/${install_file1}",
+            cwd       => $oracle_base,
+            user      => 'root',
+            group     => 'root',
+            path      => $execution_path,
+            logoutput => $log_output,
+            require   => [
+              Exec["Install Oracle Database Server ${title}"],
+              Exec["Run orainstRoot.sh script ${title}"]],
           }
 
           if ($total_install_files > 1) {
             exec { "Remove Oracle Database Server Install File ${install_file2}":
-              command => "rm -f ${package_target}/${install_file2}",
-              cwd     => $oracle_base,
-              user    => 'root',
-              group   => 'root',
-              path    => $execution_path,
-              require => [Exec["Install Oracle Database Server ${title}"],
-                          Exec["Run orainstRoot.sh script ${title}"], ]
+              command   => "rm -f ${package_target}/${install_file2}",
+              cwd       => $oracle_base,
+              user      => 'root',
+              group     => 'root',
+              path      => $execution_path,
+              logoutput => $log_output,
+              require   => [
+                Exec["Install Oracle Database Server ${title}"],
+                Exec["Run orainstRoot.sh script ${title}"]],
             }
           }
         }
