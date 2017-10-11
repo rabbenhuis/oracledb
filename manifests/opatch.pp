@@ -9,7 +9,7 @@
 # @param patch_source the location where the opatch patch file is available
 # @param os_user the operating system user for using the Oracle software
 # @param os_group the operating group name for using the Oracle software
-# @param install_dir location for response file used by netca
+# @param install_dir location for the extracted patch file
 # @param ocmrf should the ocm response file be used
 # @param use_opatch_auto should the opatch auto command be used
 # @param log_output show all the output of the the exec actions
