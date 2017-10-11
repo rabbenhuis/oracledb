@@ -35,7 +35,6 @@ This module requires the following puppet modules:
 
 ### Install Oracle Database Server
 To install an Oracle Database Server use `oracledb::install`.
-
 ```puppet
 oracledb::install { '12.2.0.1_Linux_x86-64':
   version        => '12.2.0.1',
@@ -75,7 +74,6 @@ create_resources('oracledb::install', $dbs_instances, $default_params)
 
 ### Configure Oracle Net8
 To configure Oracle Net8 use `oracledb::net`.
-
 ```puppet
 oracledb::net{ 'config net8':
   release     => '12.2',
@@ -135,6 +133,7 @@ oracledb::opatch { 'p21948354':
   patch_source => '/software/oracle/database',
   install_dir  => '/oracle/install',
   ocmrf        => true,
+}
 ```
 Same configuration but then with Hiera lookup.
 ```puppet
