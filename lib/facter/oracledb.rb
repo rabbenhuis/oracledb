@@ -47,29 +47,6 @@ def get_oracle_database_homes(orainventory_dir)
   end
 end
 
-def get_opatch_version(oracle_home)
-  ENV['ORACLE_HOME'] = oracle_home
-
-  opatch_version = Facter::Util::Resolution.exec(oracle_home + '/OPatch/opatch version')
-
-  unless opatch_version.nil?
-      opatch_version = opatch_version.split(' ')[2]
-
-      Puppet.debug "ora_db - opatch version: #{opatch_version}"
-      return opatch_version
-  else
-    return 'NotFound'
-  end
-end
-
-def get_oracle_home_properties(oracle_home)
-  properties = {}
-
-  properties[:opatch_version] = get_opatch_version(oracle_home)
-
-  return properties
-end
-
 def get_oracledb_facts
   orainventory_dir = get_orainventory_directory
   oracle_homes = get_oracle_database_homes(orainventory_dir)
@@ -77,12 +54,6 @@ def get_oracledb_facts
 
   facts[:orainventory_dir] = orainventory_dir
   facts[:oracle_homes] = oracle_homes
-
-  unless oracle_homes.nil?
-    oracle_homes.split(';').each do |oracle_home|
-      facts[oracle_home] = get_oracle_home_properties(oracle_home)
-    end
-  end
 
   Puppet.debug "get_oracledb_facts: #{facts.inspect}"
   return facts
