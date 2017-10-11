@@ -1,3 +1,6 @@
+YYYY-MM-DD Release x.y.z
+- Extended use of the hiera data provider
+
 2017-10-11 Release 0.2.0
 - Add a bash_profile to the operating server user
 - Add `oracledb::net` define

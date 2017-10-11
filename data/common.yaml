@@ -4,6 +4,20 @@ oracledb::kernels:
 
 oracledb::execution_path: '/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin'
 
-oracledb::module_source: 'modules/oracledb/'
+oracledb::package_source: 'puppet:///modules/oracledb/'
 oracledb::package_target: '/var/tmp/install'
+
+oracledb::os_user:          'oracle'
+oracledb::os_group:         'dba'
+oracledb::os_group_install: 'oinstall'
+oracledb::os_group_oper:    'oper'
+oracledb::temp_dir:         '/tmp'
+
+oracledb::release: '12.1'
+
+oracledb::listener_name: 'LISTENER'
+oracledb::listener_port: 1521
+
+# oracledb::install settings
+oracledb::install::edition: 'SE'
 

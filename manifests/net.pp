@@ -12,13 +12,13 @@
 # @param log_output show all the output of the the exec actions
 #
 define oracledb::net (
-  Enum['11.2', '12.1', '12.2'] $release       = undef,
+  Enum['11.2', '12.1', '12.2'] $release       = lookup('oracledb::release'),
   String                       $oracle_home   = undef,
-  String                       $os_user       = 'oracle',
-  String                       $os_group      = 'dba',
-  String                       $install_dir   = '/var/tmp/install',
-  String                       $listener_name = 'LISTENER',
-  Integer                      $listener_port = 1521,
+  String                       $os_user       = lookup('oracledb::os_user'),
+  String                       $os_group      = lookup('oracledb::os_group'),
+  String                       $install_dir   = lookup('oracledb::package_target'),
+  String                       $listener_name = lookup('oracledb::listener_name'),
+  Integer                      $listener_port = lookup('oracledb::listener_port'),
   Boolean                      $log_output    = false,
 ) {
   $supported_kernels = join(lookup('oracledb::kernels'), '|')

@@ -29,31 +29,30 @@
 #
 define oracledb::install (
   Enum['11.2.0.1', '11.2.0.3', '11.2.0.4', '12.1.0.1', '12.1.0.2', '12.2.0.1'] $version           = undef,
-  Enum['SE', 'EE', 'SEONE']                                                    $edition           = 'SE',
+  Enum['SE', 'EE', 'SEONE']                                                    $edition           = lookup('oracledb::install::edition'),
   Boolean                                                                      $ee_custom_install = false,
   Optional[String]                                                             $ee_custom_options = undef,
   String                                                                       $oracle_base       = undef,
   String                                                                       $oracle_home       = undef,
   Optional[String]                                                             $ora_inventory_dir = undef,
-  String                                                                       $package_source    = 'puppet:///modules/oracledb/',
+  String                                                                       $package_source    = lookup('oracledb::package_source'),
   String                                                                       $package_name      = undef,
-  String                                                                       $package_target    = '/var/tmp/install',
+  String                                                                       $package_target    = lookup('oracledb::package_target'),
   Boolean                                                                      $package_extract   = true,
   Boolean                                                                      $package_cleanup   = true,
-  String                                                                       $os_user           = 'oracle',
+  String                                                                       $os_user           = lookup('oracledb::os_user'),
   Boolean                                                                      $bash_profile      = true,
-  String                                                                       $os_group          = 'dba',
-  String                                                                       $os_group_install  = 'oinstall',
-  String                                                                       $os_group_oper     = 'oper',
-  String                                                                       $os_group_backup   = 'dba',
-  String                                                                       $os_group_dg       = 'dba',
-  String                                                                       $os_group_km       = 'dba',
-  String                                                                       $os_group_rac      = 'dba',
-  String                                                                       $temp_dir          = '/tmp',
+  String                                                                       $os_group          = lookup('oracledb::os_group'),
+  String                                                                       $os_group_install  = lookup('oracledb::os_group_install'),
+  String                                                                       $os_group_oper     = lookup('oracledb::os_group_oper'),
+  String                                                                       $os_group_backup   = lookup('oracledb::os_group'),
+  String                                                                       $os_group_dg       = lookup('oracledb::os_group'),
+  String                                                                       $os_group_km       = lookup('oracledb::os_group'),
+  String                                                                       $os_group_rac      = lookup('oracledb::os_group'),
+  String                                                                       $temp_dir          = lookup('oracledb::temp_dir'),
   Optional[String]                                                             $cluster_nodes     = undef,
   Boolean                                                                      $log_output        = false,
 ) {
-
   $supported_kernels = join(lookup('oracledb::kernels'), '|')
   if ($facts['kernel'] in $supported_kernels == false) {
     fail("Unrecognized operating system, please use it on a ${supported_kernels} host")

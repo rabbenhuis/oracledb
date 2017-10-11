@@ -56,7 +56,7 @@ oracle_home:     &oracle_home     '/oracle/product/12.2.0.1/dbhome_1'
 package_source:  &package_source  '/software/oracle/database'
 install_dir:     &install_dir     '/oracle/install'
 
-dbs_instances:
+server_instances:
   '12.2.0.1_Linux_x86-64':
     version:        *oracle_version
     edition:        'EE'
@@ -68,8 +68,8 @@ dbs_instances:
     log_output:     *log_output
 
 $default_params = {}
-$dbs_instances = lookup('dbs_instances', Hash, 'first', {})
-create_resources('oracledb::install', $dbs_instances, $default_params)
+$server_instances = lookup('server_instances', Hash, 'first', {})
+create_resources('oracledb::install', $server_instances, $default_params)
 ```
 
 ### Configure Oracle Net8
