@@ -1,4 +1,4 @@
-YYYY-MM-DD Release 0.2.0
+2017-10-11 Release 0.2.0
 - Add a bash_profile to the operating server user
 - Add `oracledb::net` define
 - Add `oracledb::opatch_upgrade` define
