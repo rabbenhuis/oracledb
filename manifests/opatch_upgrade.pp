@@ -15,11 +15,11 @@
 #
 define oracledb::opatch_upgrade (
   String            $oracle_home     = undef,
-  String            $os_user         = 'oracle',
-  String            $os_group        = 'oinstall',
-  String            $package_source  = 'puppet:///modules/oracledb/',
+  String            $os_user         = lookup('oracledb::os_user'),
+  String            $os_group        = lookup('oracledb::os_group_install'),
+  String            $package_source  = lookup('oracledb::package_source'),
   String            $package_name    = undef,
-  String            $package_target  = '/var/tmp/install',
+  String            $package_target  = lookup('oracledb::package_target'),
   String            $opatch_version  = undef,
   Optional[Integer] $csi_number      = undef,
   Optional[String]  $support_id      = undef,
