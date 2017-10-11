@@ -27,6 +27,13 @@ Puppet::Type.newtype(:dbs_opatch) do
     desc 'The full path to the ocm response file'
   end
 
+  newparam(:use_opatch_auto) do
+    desc 'Should the opatch auto command be used'
+
+    defaultto :false
+    newvalues(:true, :false)
+  end
+
   newparam(:os_user) do
     desc 'Operating system user'
 

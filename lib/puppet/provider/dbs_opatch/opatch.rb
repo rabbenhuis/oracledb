@@ -39,11 +39,12 @@ Puppet::Type.type(:dbs_opatch).provide(:opatch) do
   end
 
   def opatch(action)
-    oracle_home = resource[:oracle_home]
-    user        = resource[:os_user]
-    group       = resource[:os_group]
-    ocmrf_file  = resource[:ocmrf_file]
-    patch_dir   = resource[:patch_dir]
+    oracle_home     = resource[:oracle_home]
+    user            = resource[:os_user]
+    group           = resource[:os_group]
+    ocmrf_file      = resource[:ocmrf_file]
+    patch_dir       = resource[:patch_dir]
+    use_opatch_auto = resource[:use_opatch_auto]
 
     if ocmrf_file.nil?
       ocmrf = ''
@@ -51,10 +52,18 @@ Puppet::Type.type(:dbs_opatch).provide(:opatch) do
       ocmrf = ' -ocmrf ' + ocmrf_file
     end
 
-    if action == 'apply'
-      command = "#{oracle_home}/OPatch/opatch apply -silent #{ocmrf} -oh #{oracle_home} #{patch_dir}"
+    if use_opatch_auto == true
+      if action == 'apply'
+        command = "#{oracle_home}/OPatch/opatch auto #{patch_dir} #{ocmrf} -oh #{oracle_home}"
+      else
+        command = "#{oracle_home}/OPatch/opatch auto -rollback #{patch_dir} #{ocmrf} -oh #{oracle_home}"
+      end
     else
-      command = "#{oracle_home}/OPatch/opatch rollback -id #{patch_id} -silent -oh #{oracle_home}"
+      if action == 'apply'
+        command = "#{oracle_home}/OPatch/opatch apply -silent #{ocmrf} -oh #{oracle_home} #{patch_dir}"
+      else
+        command = "#{oracle_home}/OPatch/opatch rollback -id #{patch_id} -silent -oh #{oracle_home}"
+      end
     end
     Puppet.debug "opatch - command: #{command}"
 
