@@ -43,6 +43,7 @@ Puppet::Type.type(:dbs_opatch).provide(:opatch) do
     user            = resource[:os_user]
     group           = resource[:os_group]
     ocmrf_file      = resource[:ocmrf_file]
+    patch_id        = resource[:name]
     patch_dir       = resource[:patch_dir]
     use_opatch_auto = resource[:use_opatch_auto]
 
