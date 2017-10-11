@@ -29,9 +29,12 @@ def get_oracle_database_homes(orainventory_dir)
 
       xml_document.elements.each('/INVENTORY/HOME_LIST/HOME') do |xml_element|
         location = xml_element.attributes['LOC']
+        name = xml_element.attributes['NAME']
 
         unless location.nil?
-          oracle_homes += location + ';'
+          if name.match(/^OraDB*/)
+            oracle_homes += location + ';'
+          end
         end
       end
 

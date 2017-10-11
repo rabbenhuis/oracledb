@@ -15,6 +15,7 @@
 # @param package_extract should the installation files be extracted
 # @param package_cleanup should the installation files and directories be removed afterwards
 # @param os_user the operating system user for using the Oracle software
+# @param bash_profile should the bash_profile be added to the operating system user
 # @param os_group the operating group name for using the Oracle software
 # @param os_group_install the operating system for the installed Oracle software
 # @param os_group_oper the operating system group which is to be granted OSOPER privileges
@@ -22,6 +23,7 @@
 # @param os_group_dg The DGDBA_GROUP is the OS group which is to be granted OSDGDBA privileges.
 # @param os_group_km The KMDBA_GROUP is the OS group which is to be granted OSKMDBA privileges.
 # @param os_group_rac The OSRACDBA_GROUP is the OS group which is to be granted SYSRAC privileges.
+# @param temp_dir location for temporaray file used by the installer
 # @param cluster_nodes cluster node names
 # @param log_output show all the output of the the exec actions
 #
@@ -39,6 +41,7 @@ define oracledb::install (
   Boolean                                                                      $package_extract   = true,
   Boolean                                                                      $package_cleanup   = true,
   String                                                                       $os_user           = 'oracle',
+  Boolean                                                                      $bash_profile      = true,
   String                                                                       $os_group          = 'dba',
   String                                                                       $os_group_install  = 'oinstall',
   String                                                                       $os_group_oper     = 'oper',
@@ -46,6 +49,7 @@ define oracledb::install (
   String                                                                       $os_group_dg       = 'dba',
   String                                                                       $os_group_km       = 'dba',
   String                                                                       $os_group_rac      = 'dba',
+  String                                                                       $temp_dir          = '/tmp',
   Optional[String]                                                             $cluster_nodes     = undef,
   Boolean                                                                      $log_output        = false,
 ) {
@@ -244,39 +248,63 @@ define oracledb::install (
       require   => Exec["Run root.sh script ${title}"],
     }
 
+    if ($bash_profile) {
+      if !defined(File["/home/${os_user}/.bash_profile"]) {
+        file { "/home/${os_user}/.bash_profile":
+          ensure  => present,
+          owner   => $os_user,
+          group   => $os_group,
+          mode    => '0644',
+          content => regsubst(
+            epp(
+              'oracledb/bash_profile.epp', {
+                'oracle_base' => $oracle_base,
+                'oracle_home' => $oracle_home,
+                'temp_dir'    => $temp_dir }),
+            '\r\n', "\n", 'EMG'),
+        }
+      }
+    }
+
     # Cleanup
     if ($package_cleanup) {
       if ($package_extract) {
         exec { "Remove Oracle Database Server extract folder ${title}":
-          command => "rm -rf ${package_target}/${package_name}",
-          cwd     => $oracle_base,
-          user    => 'root',
-          group   => 'root',
-          path    => $execution_path,
-          require => [Exec["Install Oracle Database Server ${title}"],
-                      Exec["Run orainstRoot.sh script ${title}"], ]
+          command   => "rm -rf ${package_target}/${package_name}",
+          cwd       => $oracle_base,
+          user      => 'root',
+          group     => 'root',
+          path      => $execution_path,
+          logoutput => $log_output,
+          require   => [
+            Exec["Install Oracle Database Server ${title}"],
+            Exec["Run orainstRoot.sh script ${title}"]],
         }
 
         if ($package_source =~ /^puppet/) {
           exec { "Remove Oracle Database Server Install File ${install_file1}":
-            command => "rm -f ${package_target}/${install_file1}",
-            cwd     => $oracle_base,
-            user    => 'root',
-            group   => 'root',
-            path    => $execution_path,
-            require => [Exec["Install Oracle Database Server ${title}"],
-                        Exec["Run orainstRoot.sh script ${title}"], ]
+            command   => "rm -f ${package_target}/${install_file1}",
+            cwd       => $oracle_base,
+            user      => 'root',
+            group     => 'root',
+            path      => $execution_path,
+            logoutput => $log_output,
+            require   => [
+              Exec["Install Oracle Database Server ${title}"],
+              Exec["Run orainstRoot.sh script ${title}"]],
           }
 
           if ($total_install_files > 1) {
             exec { "Remove Oracle Database Server Install File ${install_file2}":
-              command => "rm -f ${package_target}/${install_file2}",
-              cwd     => $oracle_base,
-              user    => 'root',
-              group   => 'root',
-              path    => $execution_path,
-              require => [Exec["Install Oracle Database Server ${title}"],
-                          Exec["Run orainstRoot.sh script ${title}"], ]
+              command   => "rm -f ${package_target}/${install_file2}",
+              cwd       => $oracle_base,
+              user      => 'root',
+              group     => 'root',
+              path      => $execution_path,
+              logoutput => $log_output,
+              require   => [
+                Exec["Install Oracle Database Server ${title}"],
+                Exec["Run orainstRoot.sh script ${title}"]],
             }
           }
         }
